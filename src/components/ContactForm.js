@@ -10,7 +10,7 @@ const ContactForm = ({ contact, onSubmit }) => {
     email: contact ? contact.email : '',
     photoURL: contact ? contact.photo : null,
   });
-  const [photoFile, setPhotoFile] = useState(null);
+  const [photoFile, setPhotoFile] = useState('');
   const [formErrors, setFormErrors] = useState({});
   const storedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
 
