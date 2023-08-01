@@ -5,6 +5,7 @@ import ContactForm from './components/ContactForm';
 import ContactDetails from './components/ContactDetails';
 import ConfirmationModal from './components/ConfirmationModal';
 import contactsData from './data/contacts';
+import './index.css';
 
 const App = () => {
   const [contacts, setContacts] = useState(contactsData);
@@ -47,7 +48,7 @@ const App = () => {
   return (
     <Router>
       <div>
-        <nav>
+        <nav className='navigation'>
           <ul>
             <li>
               <Link to="/">Home</Link>
