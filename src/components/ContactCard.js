@@ -12,7 +12,7 @@ const ContactCard = ({ contact, onDelete }) => {
     <div className="card">
       <img src={contact.photo} className="card-img-top" alt={contact.name} />
       <div className="card-body">
-        <h5 className="card-title">{contact.name}</h5>
+        <h5 className="card-title"> Nome: {contact.name}</h5>
         <p className="card-text">Número de Contato: {contact.contactNumber}</p>
         <p className="card-text">Endereço de E-mail: {contact.email}</p>
         <Link to={`/contacts/${contact.id}`} className="btn btn-primary me-2">

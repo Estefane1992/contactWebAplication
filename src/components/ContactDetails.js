@@ -1,6 +1,8 @@
 import React from 'react';
 import { useParams} from 'react-router-dom';
 import { Container, Row, Col, Card, Image} from 'react-bootstrap';
+import { PersonFill, TelephoneFill, EnvelopeFill } from 'react-bootstrap-icons';
+
 
 const ContactDetails = ({ contacts }) => {
   const { id } = useParams();
@@ -14,12 +16,12 @@ const ContactDetails = ({ contacts }) => {
     <Container className="mt-4">
       <Row className="justify-content-center">
         <Col xs={12} md={6} lg={4}>
-          <Card>
+          <Card className="mx-auto" style={{ width: '18rem'}}>
             <Image src={contact.photo} alt={contact.name} className='img-fluid' />
             <Card.Body>
-              <Card.Title>{contact.name}</Card.Title>
-              <Card.Text>Phone Number: {contact.phoneNumber}</Card.Text>
-              <Card.Text>Email: {contact.email}</Card.Text>
+              <Card.Title> <PersonFill /> {contact.name}</Card.Title>
+                <Card.Text> <TelephoneFill />  {contact.phoneNumber}</Card.Text>
+                <Card.Text> <EnvelopeFill /> {contact.email}</Card.Text>
             </Card.Body>
           </Card>
         </Col>

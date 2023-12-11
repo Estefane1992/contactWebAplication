@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 import ContactList from './components/ContactList';
 import ContactForm from './components/ContactForm';
 import ContactDetails from './components/ContactDetails';
 import ConfirmationModal from './components/ConfirmationModal';
+import ContactEditForm from './components/ContactEditForm';
 import contactsData from './data/contacts';
 import './index.css';
 
@@ -48,16 +52,18 @@ const App = () => {
   return (
     <Router>
       <div>
-        <nav className='navigation'>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/add">Add Contact</Link>
-            </li>
-          </ul>
-        </nav>
+        <Navbar expand="lg" bg='light'>
+          <Container>
+            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className='me-auto'>
+                
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/add">Adicionar Contato</Nav.Link>
+            </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
         <Routes>
           <Route
             path="/"
@@ -70,7 +76,7 @@ const App = () => {
           />
           <Route
             path="/edit/:id"
-            element={<ContactForm onSubmit={handleEditContact} />}
+            element={<ContactEditForm contacts={contacts} />}
           />
         </Routes>
         {showConfirmationModal && (

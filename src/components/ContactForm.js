@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, Image} from 'react-bootstrap';
 
 const ContactForm = ({ contact, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -8,9 +7,8 @@ const ContactForm = ({ contact, onSubmit }) => {
     name: contact ? contact.name : '',
     phoneNumber: contact ? contact.phoneNumber : '',
     email: contact ? contact.email : '',
-    photoURL: contact ? contact.photo : null,
+    photo: contact ? contact.photo : null,
   });
-  const [photoFile, setPhotoFile] = useState('');
   const [formErrors, setFormErrors] = useState({});
   const storedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
 
@@ -20,7 +18,7 @@ const ContactForm = ({ contact, onSubmit }) => {
       name: contact ? contact.name : '',
       phoneNumber: contact ? contact.phoneNumber : '',
       email: contact ? contact.email : '',
-      photoURL: contact ? contact.photo : null,
+      photo: contact ? contact.photo : null,
     });
   }, [contact]);
 
@@ -52,10 +50,11 @@ const ContactForm = ({ contact, onSubmit }) => {
     }
 
     if (!formData.phoneNumber || formData.phoneNumber.trim() === '') {
-      errors.phoneNumber = 'Phone number is required';
-    } else if (!/^\d{9}$/.test(formData.phoneNumber)) {
-      errors.phoneNumber = 'Phone number must have 9 digits';
-    }
+  errors.phoneNumber = 'Phone number is required';
+} else if (!/^\(\d{2}\) \d{5}-\d{4}$/.test(formData.phoneNumber)) {
+  errors.phoneNumber = 'Invalid phone number format. Please use (XX) XXXXX-XXXX';
+}
+
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -72,12 +71,14 @@ const ContactForm = ({ contact, onSubmit }) => {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageURL = URL.createObjectURL(file);
-      setFormData({
-        ...formData,
-        photoURL: imageURL,
-      });
-      setPhotoFile(file);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setFormData({
+          ...formData,
+          photo: event.target.result,
+        });
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -90,7 +91,7 @@ const ContactForm = ({ contact, onSubmit }) => {
         name: formData.name,
         phoneNumber: formData.phoneNumber,
         email: formData.email,
-        photo: photoFile ? URL.createObjectURL(photoFile) : formData.photoURL,
+        photo: formData.photo,
       };
 
       onSubmit(newContact);
@@ -140,12 +141,12 @@ const ContactForm = ({ contact, onSubmit }) => {
         <Form.Group className="mb-3" controlId="photo">
           <Form.Label>Photo:</Form.Label>
           <Form.Control type="file" name="photo" onChange={handlePhotoChange} />
-          {formData.photoURL && (
-            <img
-              className="photo"
-              src={formData.photoURL}
+          {formData.photo && (
+            <Image
+              src={formData.photo}
               alt={formData.name}
-              style={{ maxWidth: '200px', marginTop: '10px' }}
+              style={{ width: '50px', height: '50px', marginTop: '10px' }}
+              thumbnail
             />
           )}
         </Form.Group>
